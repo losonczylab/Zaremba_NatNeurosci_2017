@@ -1,0 +1,40 @@
+# Dockerfile for building data base image for losonczylab/zaremba_nn_2017
+#
+# This file should be in the same directory as all the data before building.
+# To build:
+#   docker build -t losonczylab/zaremba_nn_2017_data -f Dockerfile.data .
+
+FROM losonczylab/analysis_base:2.0.3
+
+LABEL maintainer="jzaremba@gmail.com"
+
+COPY behavior /data/behavior/
+COPY enrichment_model /data/enrichment_model/
+COPY metadata /data/metadata/
+
+# Imaging data is large, split in to separate layers by mouse.
+COPY imaging/jz049 /data/imaging/jz049/
+COPY imaging/jz051 /data/imaging/jz051/
+COPY imaging/jz052 /data/imaging/jz052/
+COPY imaging/jz053 /data/imaging/jz053/
+COPY imaging/jz054 /data/imaging/jz054/
+COPY imaging/jz058 /data/imaging/jz058/
+COPY imaging/jz059 /data/imaging/jz059/
+COPY imaging/jz060 /data/imaging/jz060/
+COPY imaging/jz064 /data/imaging/jz064/
+COPY imaging/jz066 /data/imaging/jz066/
+COPY imaging/jz067 /data/imaging/jz067/
+COPY imaging/jz096 /data/imaging/jz096/
+COPY imaging/jz097 /data/imaging/jz097/
+COPY imaging/jz098 /data/imaging/jz098/
+COPY imaging/jz100 /data/imaging/jz100/
+COPY imaging/jz101 /data/imaging/jz101/
+COPY imaging/jz102 /data/imaging/jz102/
+COPY imaging/jz106 /data/imaging/jz106/
+COPY imaging/jz113 /data/imaging/jz113/
+COPY imaging/jz114 /data/imaging/jz114/
+COPY imaging/jz121 /data/imaging/jz121/
+COPY imaging/jz126 /data/imaging/jz126/
+COPY imaging/jz128 /data/imaging/jz128/
+COPY imaging/jz135 /data/imaging/jz135/
+COPY imaging/nd45 /data/imaging/nd45/
