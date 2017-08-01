@@ -47,7 +47,7 @@ On Windows, many of these packages are easiest to install from
 [Christophe Gohlke's built wheels](http://www.lfd.uci.edu/~gohlke/pythonlibs/)
 
 Alternatively, all these requirements have been installed in a Docker image that
-will run all of the figure code (see [Docker](#Docker)).
+will run all of the figure code (see [Docker](#docker)).
 
 ### Raw data
 
