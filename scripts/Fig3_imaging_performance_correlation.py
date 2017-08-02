@@ -168,7 +168,7 @@ def main():
     recur_cdf_ax.set_xlim(params['recur_range'])
     recur_cdf_ax.set_xticks(params['recur_xticks'])
 
-plotting.plot_metric(
+    plotting.plot_metric(
         recur_inset_ax, day_paired_grps,
         metric_fn=place.recurrence_probability,
         groupby=(('second_expt', 'second_mouseID'), ('second_mouseID',)),
