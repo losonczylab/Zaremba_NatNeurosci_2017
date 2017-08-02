@@ -38,21 +38,19 @@ def main():
     Df_expt_grp = all_grps['Df_place_set']
     expt_grps = [WT_expt_grp, Df_expt_grp]
 
-    data_to_save = {}
-
     fig, axs = plt.subplots(
         4, 3, figsize=(8.5, 11), gridspec_kw={'wspace': 0.4, 'hspace': 0.3})
 
     #
     # Velocity
     #
-    data_to_save['velocity_A'] = plotting.plot_metric(
+    plotting.plot_metric(
         axs[0, 0], expt_grps, metric_fn=lab.ExperimentGroup.velocity_dataframe,
         groupby=[['expt'], ['mouseID']], plotby=None, plot_method='swarm',
         activity_kwargs=None, filter_fn=lambda df: df['condition'] == 'A',
         filter_columns=['condition'], activity_label='Velocity (cm/s)',
         colors=colors, plot_bar=True, edgecolor='k', linewidth=0.5,
-        return_full_dataframes=True)
+        return_full_dataframes=False)
     plotting.plot_metric(
         axs[0, 1], expt_grps, metric_fn=lab.ExperimentGroup.velocity_dataframe,
         groupby=[['expt'], ['session_in_day', 'mouseID']],
@@ -64,14 +62,14 @@ def main():
     #
     # Lap Rate
     #
-    data_to_save['lap_rate_A'] = plotting.plot_metric(
+    plotting.plot_metric(
         axs[1, 0], expt_grps, metric_fn=lab.ExperimentGroup.number_of_laps,
         groupby=[['expt'], ['mouseID']], plotby=None, plot_method='swarm',
         activity_kwargs={'rate': True},
         filter_fn=lambda df: df['condition'] == 'A',
         filter_columns=['condition'], activity_label='Lap rate (1/min)',
         colors=colors, agg_fn=[np.sum, np.mean], plot_bar=True, edgecolor='k',
-        linewidth=0.5, return_full_dataframes=True)
+        linewidth=0.5, return_full_dataframes=False)
     plotting.plot_metric(
         axs[1, 1], expt_grps, metric_fn=lab.ExperimentGroup.number_of_laps,
         groupby=[['expt'], ['session_in_day', 'mouseID']],
@@ -85,14 +83,14 @@ def main():
     #
     # Lick Rate
     #
-    data_to_save['lick_rate_A'] = plotting.plot_metric(
+    plotting.plot_metric(
         axs[2, 0], expt_grps, metric_fn=lab.ExperimentGroup.behavior_dataframe,
         groupby=[['trial'], ['mouseID']], plotby=None,
         plot_method='swarm', activity_kwargs={'key': 'licking', 'rate': True},
         filter_fn=lambda df: df['condition'] == 'A',
         filter_columns=['condition'], activity_label='Lick rate (Hz)',
         colors=colors, agg_fn=[np.sum, np.mean], plot_bar=True, edgecolor='k',
-        linewidth=0.5, return_full_dataframes=True)
+        linewidth=0.5, return_full_dataframes=False)
     plotting.plot_metric(
         axs[2, 1], expt_grps, metric_fn=lab.ExperimentGroup.behavior_dataframe,
         groupby=[['trial'], ['session_in_day', 'mouseID']],

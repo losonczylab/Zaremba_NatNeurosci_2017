@@ -59,7 +59,6 @@ def prep_polar_ax(ax):
 
 
 def main():
-    data_to_save = {}
     all_expt_grps = df.loadExptGrps('GOL')
 
     WT_expt_grp_hidden = all_expt_grps['WT_place_set']
@@ -170,30 +169,14 @@ def main():
     ax2.set_yticks([0, 0.1, 0.2, 0.3])
     ax2.set_ylabel('Centroid shift (fraction of belt)')
 
-    data_to_save['fabric_transitions'] = {
-        expt_grp.label(): {'dataframe': d, 'shuffle': s}
-        for expt_grp, d, s in zip(paired_grps, all_data, shuffles)}
-
     #
     # Burlap belt
     #
-
-    # burlap_expt_paths = [
-    #     '/data/Jeff/running/jz126/TSeries-07262015-burlap-000',
-    #     '/data/Jeff/running/jz128/TSeries-07262015-burlap-000',
-    #     '/data/Nathan/2photon/runTraining/nd45/10172013/burlap-running-TSeries-001/',
-    # ]
 
     expts = lab.ExperimentSet(
         os.path.join(df.metadata_path, 'expt_metadata.xml'),
         behaviorDataPath=os.path.join(df.data_path, 'behavior'),
         dataPath=os.path.join(df.data_path, 'imaging'))
-
-    # burlap_expts = [
-    #     expts.grabExptByPath(expt_path) for expt_path in burlap_expt_paths]
-
-    # burlap_expt_grp = lab.classes.pcExperimentGroup(
-    #     burlap_expts, imaging_label='soma', label='cue-free')
 
     burlap_expt_grp = lab.classes.pcExperimentGroup.from_json(
         cue_free_json, expts, imaging_label=df.IMAGING_LABEL, label='cue-free')
@@ -231,7 +214,7 @@ def main():
 
     activity_kwargs = {'circ_var': True}
 
-    data_to_save['place_cell_fraction'] = plotting.plot_metric(
+    plotting.plot_metric(
         pf_fraction_ax, [WT_expt_grp_acute, burlap_expt_grp],
         metric_fn=place.place_cell_percentage,
         groupby=None, plotby=None, colorby=None, plot_method='swarm',
@@ -243,7 +226,7 @@ def main():
     sns.despine(ax=pf_fraction_ax)
     pf_fraction_ax.set_yticks([0.0, 0.1, 0.2, 0.3, 0.4])
 
-    data_to_save['circular_variance'] = plotting.plot_metric(
+    plotting.plot_metric(
         circ_var_ax, [WT_expt_grp_acute, burlap_expt_grp],
         metric_fn=place.circular_variance,
         groupby=[['roi_id', 'expt']], plotby=None, plot_method='cdf',

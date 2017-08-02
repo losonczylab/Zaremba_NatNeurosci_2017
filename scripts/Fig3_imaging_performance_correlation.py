@@ -54,8 +54,6 @@ def main():
         for expt_grp in expt_grps:
             expt_grp.filter(lambda expt: expt.parent.get('sex') == 'M')
 
-    data_to_save = {}
-
     fig = plt.figure(figsize=(8.5, 11))
 
     recur_cdf_ax = fig.add_axes([0.1, 0.70, 0.22, 0.20])
@@ -157,20 +155,20 @@ def main():
                  groupby=['X_condition', 'X_day', 'X_session'])
         for grp in expt_grps]
 
-    data_to_save['recurrence'] = plotting.plot_metric(
+    plotting.plot_metric(
         recur_cdf_ax, day_paired_grps, metric_fn=place.recurrence_probability,
         groupby=(('second_expt',),), plot_method='cdf',
         roi_filters=roi_filters,
         activity_kwargs={'circ_var_pcs': circ_var_pcs}, plot_shuffle=True,
         shuffle_plotby=False, pool_shuffle=True,
         activity_label='Recurrence probability', colors=colors,
-        rotate_labels=False, return_full_dataframes=True)
+        rotate_labels=False, return_full_dataframes=False)
     recur_cdf_ax.legend(loc='upper left', fontsize=6)
     recur_cdf_ax.set_title('')
     recur_cdf_ax.set_xlim(params['recur_range'])
     recur_cdf_ax.set_xticks(params['recur_xticks'])
 
-    data_to_save['recurrence_inset'] = plotting.plot_metric(
+plotting.plot_metric(
         recur_inset_ax, day_paired_grps,
         metric_fn=place.recurrence_probability,
         groupby=(('second_expt', 'second_mouseID'), ('second_mouseID',)),
@@ -196,7 +194,7 @@ def main():
     colorby_list = [(expt_grp.label(),) for expt_grp in expt_grps]
     recur_behav_corr_ax.set_xlim(params['recur_range'])
     recur_behav_corr_ax.set_ylim(params['behav_range'])
-    data_to_save['recur_behavior_scatter'] = plotting.plot_paired_metrics(
+    plotting.plot_paired_metrics(
         day_paired_grps, first_metric_fn=place.recurrence_probability,
         second_metric_fn=params['behavior_fn'],
         roi_filters=roi_filters, groupby=(('second_expt',),),
@@ -218,7 +216,7 @@ def main():
     #
     filter_fn = None
     filter_columns = None
-    data_to_save['stability'] = plotting.plot_metric(
+    plotting.plot_metric(
         stability_over_time_ax, day_paired_grps,
         metric_fn=params['stability_fn'], groupby=(('second_expt',),),
         plotby=None, plot_method='cdf', roi_filters=roi_filters,
@@ -226,14 +224,14 @@ def main():
         shuffle_plotby=False, pool_shuffle=True,
         activity_label=params['stability_label'], colors=colors,
         rotate_labels=False, filter_fn=filter_fn,
-        filter_columns=filter_columns, return_full_dataframes=True)
+        filter_columns=filter_columns, return_full_dataframes=False)
     stability_over_time_ax.legend(loc='upper left', fontsize=6)
     stability_over_time_ax.set_title('')
     stability_over_time_ax.set_xlabel(params['stability_label'])
     stability_over_time_ax.set_xlim(params['stab_range'])
     stability_over_time_ax.set_xticks(params['stab_xticks'])
 
-    data_to_save['stability_inset'] = plotting.plot_metric(
+    plotting.plot_metric(
         stability_inset_ax, day_paired_grps, metric_fn=params['stability_fn'],
         groupby=(('second_expt', 'second_mouseID'), ('second_mouseID',),),
         plotby=None, plot_method='swarm', roi_filters=roi_filters,
@@ -259,7 +257,7 @@ def main():
     colorby_list = [(expt_grp.label(),) for expt_grp in expt_grps]
     stability_behav_corr_ax.set_xlim(params['stab_range'])
     stability_behav_corr_ax.set_ylim(params['behav_range'])
-    data_to_save['stability_behavior_scatter'] = plotting.plot_paired_metrics(
+    plotting.plot_paired_metrics(
         day_paired_grps, first_metric_fn=params['stability_fn'],
         second_metric_fn=params['behavior_fn'],
         roi_filters=roi_filters, groupby=(('second_expt',),),
@@ -286,7 +284,7 @@ def main():
     filter_fn = None
     filter_columns = None
     line_kwargs = {'markersize': 4}
-    data_to_save['recur_day_sess_comp'] = plotting.plot_metric(
+    plotting.plot_metric(
         recur_day_sess_comp_ax, session_paired_grps,
         metric_fn=place.recurrence_probability,
         groupby=(('elapsed_days_int', 'second_expt', 'second_mouseID'),),
@@ -297,7 +295,7 @@ def main():
         activity_label='Recurrence probability', colors=colors,
         rotate_labels=False, plot_shuffle_as_hline=True,
         flierprops={'markersize': 2, 'marker': 'o'}, box_width=0.4,
-        box_spacing=0.2, return_full_dataframes=True, whis='range',
+        box_spacing=0.2, return_full_dataframes=False, whis='range',
         linestyles=linestyles, notch=False, line_kwargs=line_kwargs)
     sns.despine(ax=recur_day_sess_comp_ax)
     recur_day_sess_comp_ax.legend(loc='upper right', fontsize=6)
@@ -307,7 +305,7 @@ def main():
     recur_day_sess_comp_ax.set_ylim(0.0, 1.0)
     recur_day_sess_comp_ax.set_yticks([0.00, 0.25, 0.50, 0.75, 1.])
 
-    data_to_save['stab_day_sess_comp'] = plotting.plot_metric(
+    plotting.plot_metric(
         stab_day_sess_comp_ax, session_paired_grps,
         metric_fn=params['stability_fn'],
         groupby=(('elapsed_days_int', 'second_expt', 'second_mouseID'),),
@@ -318,7 +316,7 @@ def main():
         rotate_labels=False, filter_fn=filter_fn, markers=markers,
         filter_columns=filter_columns, plot_shuffle_as_hline=True,
         flierprops={'markersize': 2, 'marker': 'o'}, box_width=0.4,
-        box_spacing=0.2, return_full_dataframes=True, whis='range',
+        box_spacing=0.2, return_full_dataframes=False, whis='range',
         linestyles=linestyles, notch=False, line_kwargs=line_kwargs)
     sns.despine(ax=stab_day_sess_comp_ax)
     stab_day_sess_comp_ax.legend(loc='upper right', fontsize=6)

@@ -65,8 +65,6 @@ def main():
     Df_pc_expt_grp = all_grps['Df_place_set']
     pc_expt_grps = [WT_pc_expt_grp, Df_pc_expt_grp]
 
-    data_to_save = {}
-
     paired_grps = [grp.pair(
         'consecutive groups', groupby=['condition_day_session']).pair(
             'same group', groupby=['condition']) for grp in pc_expt_grps]
@@ -98,7 +96,7 @@ def main():
 
     lick_data = [
         behavior_fn(expt_grp, **behavior_kwargs) for expt_grp in expt_grps]
-    data_to_save['licks_in_reward_zone'] = plotting.plot_dataframe(
+    plotting.plot_dataframe(
         behav_ax, lick_data, labels=labels,
         groupby=[['expt'], ['mouseID', 'condition', 'condition_day_session']],
         plotby=['condition'], plot_method='line',
@@ -116,7 +114,7 @@ def main():
         rd, rs = recurrence_fn(expt_grp, **recurrence_kwargs)
         recur_data.append(rd)
         recur_shuffles.append(rs)
-    data_to_save['recurrence'] = plotting.plot_dataframe(
+    plotting.plot_dataframe(
         recurrence_ax, recur_data, recur_shuffles, labels=labels,
         groupby=[['second_mouse', 'second_condition',
                   'second_condition_day_session']],
@@ -136,7 +134,7 @@ def main():
         sd, ss = stability_fn(expt_grp, **stability_kwargs)
         stability_data.append(sd)
         stability_shuffles.append(ss)
-    data_to_save[stability_save_label] = plotting.plot_dataframe(
+    plotting.plot_dataframe(
         stability_ax, stability_data, stability_shuffles, labels=labels,
         groupby=[['second_mouse', 'second_condition',
                   'second_condition_day_session']],

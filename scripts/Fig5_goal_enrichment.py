@@ -84,14 +84,8 @@ def main():
     WT_label = WT_expt_grp.label()
     Df_label = Df_expt_grp.label()
 
-    data_to_save = {}
-
     fig = plt.figure(figsize=(8.5, 11))
 
-    # gs1 = plt.GridSpec(
-    #     2, 5, left=0.1, right=0.43, top=0.90, bottom=0.67, hspace=0.2)
-    # gs1_2 = plt.GridSpec(
-    #     2, 5, left=0.43, right=0.76, top=0.90, bottom=0.67, hspace=0.2)
     gs1 = plt.GridSpec(
         2, 5, left=0.1, right=0.3, top=0.90, bottom=0.67, hspace=0.2)
     gs1_2 = plt.GridSpec(
@@ -101,20 +95,11 @@ def main():
     Df_1_heatmap_ax = fig.add_subplot(gs1[1, :-1])
     Df_3_heatmap_ax = fig.add_subplot(gs1_2[1, :-1])
 
-    # gs_cbar = plt.GridSpec(
-    #     2, 10, left=0.43, right=0.76, top=0.90, bottom=0.67, hspace=0.2)
     gs_cbar = plt.GridSpec(
         2, 10, left=0.3, right=0.5, top=0.90, bottom=0.67, hspace=0.2)
     WT_colorbar_ax = fig.add_subplot(gs_cbar[0, -1])
     Df_colorbar_ax = fig.add_subplot(gs_cbar[1, -1])
 
-    # gs2 = plt.GridSpec(5, 5, left=0.1, right=0.43, top=0.6, bottom=0.35)
-    # gs2 = plt.GridSpec(5, 5, left=0.1, right=0.3, top=0.67, bottom=0.35)
-    # pf_close_fraction_ax = fig.add_subplot(gs2[1:, :-1])
-
-    # gs3 = plt.GridSpec(5, 5, left=0.43, right=0.76, top=0.6, bottom=0.35)
-    # gs3 = plt.GridSpec(5, 5, left=0.3, right=0.5, top=0.67, bottom=0.35)
-    # pf_close_behav_corr_ax = fig.add_subplot(gs3[1:, :-1])
     gs2 = plt.GridSpec(1, 10, left=0.1, right=0.5, top=0.6, bottom=0.45)
     pf_close_fraction_ax = fig.add_subplot(gs2[0, :4])
     pf_close_behav_corr_ax = fig.add_subplot(gs2[0, 5:])
@@ -130,9 +115,6 @@ def main():
     WT_dataframe = lab.ExperimentGroup.dataframe(
         WT_expt_grp, include_columns=['X_condition', 'X_day', 'X_session'])
 
-    # WT_1_expt_grp = WT_expt_grp.subGroup(list(
-    #     WT_dataframe[
-    #         WT_dataframe['condition_day_session'] == 'C_0_0']['expt']))
     WT_1_expt_grp = WT_expt_grp.subGroup(list(
         WT_dataframe[
             (WT_dataframe['X_condition'] == 'C') &
@@ -148,9 +130,6 @@ def main():
     WT_1_heatmap_ax.set_ylabel(WT_label)
     WT_1_heatmap_ax.set_xlabel('')
 
-    # WT_3_expt_grp = WT_expt_grp.subGroup(list(
-    #     WT_dataframe[
-    #         WT_dataframe['condition_day_session'] == 'C_2_0']['expt']))
     WT_3_expt_grp = WT_expt_grp.subGroup(list(
         WT_dataframe[
             (WT_dataframe['X_condition'] == 'C') &
@@ -171,9 +150,6 @@ def main():
     Df_dataframe = lab.ExperimentGroup.dataframe(
         Df_expt_grp, include_columns=['X_condition', 'X_day', 'X_session'])
 
-    # Df_1_expt_grp = Df_expt_grp.subGroup(list(
-    #     Df_dataframe[
-    #         Df_dataframe['condition_day_session'] == 'C_0_2']['expt']))
     Df_1_expt_grp = Df_expt_grp.subGroup(list(
         Df_dataframe[
             (Df_dataframe['X_condition'] == 'C') &
@@ -187,9 +163,6 @@ def main():
     fix_heatmap_ax(Df_1_heatmap_ax, Df_1_expt_grp)
     Df_1_heatmap_ax.set_ylabel(Df_label)
 
-    # Df_3_expt_grp = Df_expt_grp.subGroup(list(
-    #     Df_dataframe[
-    #         Df_dataframe['condition_day_session'] == 'C_2_0']['expt']))
     Df_3_expt_grp = Df_expt_grp.subGroup(list(
         Df_dataframe[
             (Df_dataframe['X_condition'] == 'C') &
@@ -215,34 +188,29 @@ def main():
     behavior_kwargs = {}
     behavior_label = 'Fraction of licks in reward zone'
 
-    data_to_save['pf_close_fraction'] = plotting.plot_metric(
+    plotting.plot_metric(
         pf_close_fraction_ax, expt_grps, metric_fn=activity_metric,
         roi_filters=roi_filters, groupby=[['expt', 'X_condition', 'X_day']],
         plotby=['X_condition', 'X_day'], plot_abs=False, plot_method='line',
         activity_kwargs=activity_kwargs, rotate_labels=False,
         activity_label='Fraction of place cells near reward',
         label_every_n=1, colors=colors, markers=markers, markersize=5,
-        # return_full_dataframes=False)  # for 'by mouse' table
-        return_full_dataframes=True, linestyles=linestyles)
+        return_full_dataframes=False, linestyles=linestyles)
     pf_close_fraction_ax.axhline(1 / 8., linestyle='--', color='k')
     pf_close_fraction_ax.set_title('')
     sns.despine(ax=pf_close_fraction_ax)
     pf_close_fraction_ax.set_xlabel('Day in Condition')
     day_number_only_label(pf_close_fraction_ax)
     label_conditions(pf_close_fraction_ax)
-    # pf_close_fraction_ax.get_legend().set_visible(False)
     pf_close_fraction_ax.legend(loc='upper left', fontsize=6)
     pf_close_fraction_ax.set_ylim(0, 0.40)
     pf_close_fraction_ax.set_yticks([0, 0.1, 0.2, 0.3, 0.4])
-    # plotting.stackedText(
-    #     pf_close_fraction_ax, [WT_label, Df_label], colors=colors, loc=4,
-    #     size=8)
 
     scatter_kws = {'s': 5}
     colorby_list = [(expt_grp.label(), 'C') for expt_grp in expt_grps]
     pf_close_behav_corr_ax.set_xlim(frac_near_range_2)
     pf_close_behav_corr_ax.set_ylim(behav_range_2)
-    data_to_save['near_behavior_scatter'] = plotting.plot_paired_metrics(
+    plotting.plot_paired_metrics(
         expt_grps, first_metric_fn=place.centroid_to_position_threshold,
         second_metric_fn=behavior_fn,
         roi_filters=roi_filters, groupby=(('expt',),),

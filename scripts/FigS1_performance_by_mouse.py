@@ -38,8 +38,6 @@ def main():
     WT_expt_grp = all_grps['WT_hidden_behavior_set']
     Df_expt_grp = all_grps['Df_hidden_behavior_set']
 
-    data_to_save = {}
-
     behavior_fn = ra.fraction_licks_in_reward_zone
     behavior_kwargs = {}
     activity_label = 'Fraction of licks in reward zone'
@@ -67,7 +65,7 @@ def main():
                         Df_expt_grp, include_columns=['mouseID']).groupby(
                             'mouseID')]
 
-    data_to_save['WT'] = plotting.plot_metric(
+    plotting.plot_metric(
         wt_ax, wt_expt_grps,
         metric_fn=behavior_fn, activity_kwargs=behavior_kwargs,
         groupby=[['expt'], ['condition_day']],
@@ -82,7 +80,7 @@ def main():
     wt_ax.get_legend().set_visible(False)
     wt_ax.tick_params(length=3, pad=2)
 
-    data_to_save['Df'] = plotting.plot_metric(
+    plotting.plot_metric(
         df_ax, df_expt_grps,
         metric_fn=behavior_fn, activity_kwargs=behavior_kwargs,
         groupby=[['expt'], ['condition_day']],

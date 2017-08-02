@@ -28,8 +28,6 @@ sal_json = os.path.join(df.expt_sets_path, 'saline_expts.json')
 
 
 def main():
-    data_to_save = {}
-
     expts = lab.ExperimentSet(
         os.path.join(df.metadata_path, 'expt_metadata.xml'),
         behaviorDataPath=os.path.join(df.data_path, 'behavior'),
@@ -55,7 +53,7 @@ def main():
         elif 'muscimol' in expt.get('drug'):
             expt.attrib['drug_condition'] = 'reversal'
 
-    data_to_save['muscimol'] = plotting.plot_metric(
+    plotting.plot_metric(
         ax, [sal_grp, mus_grp], metric_fn=ra.fraction_licks_in_reward_zone,
         label_groupby=False, plotby=['X_drug_condition'],
         plot_method='swarm', rotate_labels=False,

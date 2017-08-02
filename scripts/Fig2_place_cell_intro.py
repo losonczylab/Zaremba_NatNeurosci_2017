@@ -67,8 +67,6 @@ def main():
     WT_label = WT_expt_grp.label()
     Df_label = Df_expt_grp.label()
 
-    data_to_save = {}
-
     fig = plt.figure(figsize=(8.5, 11))
 
     gs2 = plt.GridSpec(48, 1, right=.6)
@@ -224,13 +222,12 @@ def main():
 
     groupby = [['expt'], ['mouseID']]
 
-    data_to_save['pc_percentage'] = plotting.plot_metric(
+    plotting.plot_metric(
         pf_fraction_ax, expt_grps, metric_fn=place.place_cell_percentage,
         groupby=None, plotby=None, colorby=None, plot_method='cdf',
         roi_filters=roi_filters, activity_kwargs=None, colors=colors,
         activity_label='Place cell fraction', rotate_labels=False,
-        return_full_dataframes=True, linestyles=linestyles)
-    # pf_fraction_ax.get_legend().set_visible(False)
+        return_full_dataframes=False, linestyles=linestyles)
     pf_fraction_ax.legend(loc='upper left', fontsize=6)
     pf_fraction_ax.set_title('')
     pf_fraction_ax.set_ylabel('Cumulative fraction')
@@ -238,12 +235,10 @@ def main():
     pf_fraction_ax.set_xlim(0, .8)
     pf_fraction_ax.spines['left'].set_linewidth(1)
     pf_fraction_ax.spines['bottom'].set_linewidth(1)
-    # plotting.stackedText(
-    #     pf_fraction_ax, [WT_label, Df_label], colors=colors, loc=2, size=8)
 
-    data_to_save['pc_percentage_inset'] = plotting.plot_metric(
+    plotting.plot_metric(
         pf_fraction_inset_ax, expt_grps, metric_fn=place.place_cell_percentage,
-        groupby=groupby,   # [['mouseID']],
+        groupby=groupby,
         plotby=None, colorby=None, plot_method='swarm',
         roi_filters=roi_filters, activity_kwargs=None, colors=colors,
         activity_label='Place cell fraction', rotate_labels=False,
@@ -261,7 +256,7 @@ def main():
     pf_fraction_inset_ax.set_xlim(-0.6, 0.6)
 
     n_pf_kwargs = {'per_mouse_fractions': True, 'max_n_place_fields': 3}
-    data_to_save['n_place_fields'] = plotting.plot_metric(
+    plotting.plot_metric(
         pf_per_cell_ax, expt_grps, metric_fn=place.n_place_fields,
         groupby=None, plotby=['number'], plot_method='swarm',
         roi_filters=roi_filters, activity_kwargs=n_pf_kwargs, colors=colors,
@@ -274,16 +269,15 @@ def main():
     pf_per_cell_ax.set_xticklabels(['1', '2', '3+'])
     pf_per_cell_ax.set_yticks([0, 0.2, 0.4, 0.6, 0.8, 1])
 
-    data_to_save['width'] = plotting.plot_metric(
+    plotting.plot_metric(
         pf_width_ax, expt_grps, metric_fn=place.place_field_width,
         groupby=[['roi_id', 'expt']], plotby=None, plot_method='hist',
         roi_filters=roi_filters, activity_kwargs=None,
         activity_label='Place field width (cm)', normed=True, plot_mean=True,
         bins=20, range=(0, 120), colors=colors, rotate_labels=False,
-        filled=False, mean_kwargs={'ls': ':'}, return_full_dataframes=True,
+        filled=False, mean_kwargs={'ls': ':'}, return_full_dataframes=False,
         linestyles=linestyles)
     pf_width_ax.set_title('')
-    # pf_width_ax.get_legend().set_visible(False)
     pf_width_ax.legend(loc='lower right', fontsize=6)
     pf_width_ax.set_xticks([0, 40, 80, 120])
     pf_width_ax.set_yticks([0, 0.02, 0.04, 0.06, 0.08])
@@ -292,7 +286,7 @@ def main():
     pf_width_ax.spines['left'].set_linewidth(1)
     pf_width_ax.spines['bottom'].set_linewidth(1)
 
-    data_to_save['width_inset'] = plotting.plot_metric(
+    plotting.plot_metric(
         pf_width_inset_ax, expt_grps, metric_fn=place.place_field_width,
         groupby=[['roi_id', 'expt'], ['expt'], ['mouseID']],
         plotby=None, plot_method='swarm',
@@ -311,14 +305,13 @@ def main():
     pf_width_inset_ax.spines['bottom'].set_linewidth(1)
     pf_width_inset_ax.set_xlim(-0.6, 0.6)
 
-    data_to_save['circular_variance'] = plotting.plot_metric(
+    plotting.plot_metric(
         circ_var_ax, expt_grps, metric_fn=place.circular_variance,
         groupby=[['roi_id', 'expt']], plotby=None, plot_method='cdf',
         roi_filters=roi_filters, activity_kwargs=None,
         activity_label='Circular variance', colors=colors, rotate_labels=False,
-        return_full_dataframes=True, linestyles=linestyles)
+        return_full_dataframes=False, linestyles=linestyles)
     circ_var_ax.set_title('')
-    # circ_var_ax.get_legend().set_visible(False)
     circ_var_ax.legend(loc='upper left', fontsize=6)
     circ_var_ax.set_ylabel('Cumulative fraction')
     circ_var_ax.set_xlim(-0.1, 1)
@@ -326,7 +319,7 @@ def main():
     circ_var_ax.spines['left'].set_linewidth(1)
     circ_var_ax.spines['bottom'].set_linewidth(1)
 
-    data_to_save['circular_variance_inset'] = plotting.plot_metric(
+    plotting.plot_metric(
         circ_var_inset_ax, expt_grps, metric_fn=place.circular_variance,
         groupby=groupby,
         plotby=None, plot_method='swarm',

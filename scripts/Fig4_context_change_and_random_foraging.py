@@ -77,8 +77,6 @@ def main():
     gs6 = plt.GridSpec(1, 1, top=0.5, bottom=0.3, left=0.4, right=0.5)
     task_compare_ax = fig.add_subplot(gs6[0, 0])
 
-    data_to_save = {}
-
     #
     # RF Compare
     #
@@ -151,7 +149,7 @@ def main():
     filter_fn = lambda df: (df['expt_pair_label'] == 'SameAll')
     filter_columns = ['expt_pair_label']
 
-    data_to_save['acute_stability'] = plotting.plot_metric(
+    acute_stability = plotting.plot_metric(
         acute_stability_ax, paired_grps_acute,
         metric_fn=params['stability_fn'],
         groupby=[['expt_pair_label', 'second_expt']], plotby=None,
@@ -160,7 +158,7 @@ def main():
         shuffle_plotby=False, pool_shuffle=True,
         activity_label=params['stability_label'], colors=colors,
         rotate_labels=False, filter_fn=filter_fn,
-        filter_columns=filter_columns, return_full_dataframes=True,
+        filter_columns=filter_columns, return_full_dataframes=False,
         linestyles=linestyles)
     acute_stability_ax.set_xlabel(params['stability_label'])
     acute_stability_ax.set_title('')
@@ -169,7 +167,7 @@ def main():
     acute_stability_ax.set_xticks(params['stability_cdf_ticks'])
     acute_stability_ax.legend(loc='upper left', fontsize=6)
 
-    data_to_save['acute_stability_inset'] = plotting.plot_metric(
+    plotting.plot_metric(
         acute_stability_inset_ax, paired_grps_acute,
         metric_fn=params['stability_fn'],
         groupby=[['second_expt'], ['second_mouseID']], plotby=None,
@@ -199,13 +197,13 @@ def main():
         plot_shuffle=True, shuffle_plotby=False, pool_shuffle=True,
         activity_label=params['stability_label'], colors=colors,
         rotate_labels=False, filter_fn=filter_fn,
-        filter_columns=filter_columns, return_full_dataframes=True)
+        filter_columns=filter_columns, return_full_dataframes=False)
     plt.close(tmp_fig)
 
-    wt_acute = data_to_save['acute_stability'][WT_label]['dataframe']
-    wt_acute_shuffle = data_to_save['acute_stability'][WT_label]['shuffle']
-    df_acute = data_to_save['acute_stability'][Df_label]['dataframe']
-    df_acute_shuffle = data_to_save['acute_stability'][Df_label]['shuffle']
+    wt_acute = acute_stability[WT_label]['dataframe']
+    wt_acute_shuffle = acute_stability[WT_label]['shuffle']
+    df_acute = acute_stability[Df_label]['dataframe']
+    df_acute_shuffle = acute_stability[Df_label]['shuffle']
 
     wt_hidden = hidden_stability[WT_label]['dataframe']
     wt_hidden_shuffle = hidden_stability[WT_label]['shuffle']
@@ -247,11 +245,7 @@ def main():
     task_compare_ax.set_yticks(params['stability_compare_yticks'])
     task_compare_ax.set_xlabel('')
     task_compare_ax.set_ylabel(params['stability_label'])
-    # task_compare_ax.get_legend().set_visible(False)
     task_compare_ax.legend(loc='upper right', fontsize=6)
-    data_to_save['task_compare'] = {
-        WT_label: {'dataframe': WT_data, 'shuffle': WT_shuffle},
-        Df_label: {'dataframe': Df_data, 'shuffle': Df_shuffle}}
 
     #
     # Stability across transition
@@ -260,14 +254,14 @@ def main():
     filter_fn = lambda df: (df['X_first_condition'] == 'A') \
         & (df['X_second_condition'] == 'B')
     filter_columns = ('X_first_condition', 'X_second_condition')
-    data_to_save['hr_across_ctx'] = plotting.plot_metric(
+    plotting.plot_metric(
         across_ctx_ax, paired_grps_hidden, metric_fn=params['stability_fn'],
         groupby=groupby, plotby=None, plot_method='swarm',
         activity_kwargs=params['stability_kwargs'], plot_shuffle=True,
         shuffle_plotby=False, pool_shuffle=True, colors=colors,
         activity_label=params['stability_label'], rotate_labels=False,
         filter_fn=filter_fn, filter_columns=filter_columns,
-        plot_shuffle_as_hline=True, return_full_dataframes=True,
+        plot_shuffle_as_hline=True, return_full_dataframes=False,
         plot_bar=True, roi_filters=roi_filters)
     sns.despine(ax=across_ctx_ax)
     across_ctx_ax.set_ylim(0.0, 0.3)
@@ -364,14 +358,6 @@ def main():
         cueness.append([grp_df['cueness']])
 
     cue_labels = labels + ['shuffle']
-
-    data_to_save['cueness'] = {}
-    data_to_save['cueness']['cueness_dataframe'] = cueness
-    data_to_save['cueness']['cue_n'] = cue_n
-    data_to_save['cueness']['place_n'] = place_n
-    data_to_save['cueness']['neither_n'] = neither_n
-    data_to_save['cueness']['fraction'] = cueness_fraction
-    data_to_save['cueness']['labels'] = cue_labels
 
     plotting.swarm_plot(
         cue_cell_bar_ax, cueness_fraction[:2], condition_labels=labels,

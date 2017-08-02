@@ -127,8 +127,6 @@ def main():
             expt_grp.filter(lambda expt: expt.parent.get('sex') == 'M')
     labels = [expt_grp.label() for expt_grp in expt_grps]
 
-    data_to_save = {}
-
     fig = plt.figure(figsize=(8.5, 11))
 
     HORIZONTAL = False
@@ -293,7 +291,7 @@ def main():
     behavior_kwargs = {}
     activity_label = 'Fraction of licks in reward zone'
 
-    data_to_save['licks_in_reward_zone'] = plot_metric(
+    plot_metric(
         reward_zone_ax, expt_grps,
         metric_fn=behavior_fn, activity_kwargs=behavior_kwargs,
         groupby=[['expt'], ['mouseID', 'X_condition', 'X_day']],
@@ -301,7 +299,7 @@ def main():
         activity_label=activity_label, colors=colors, linestyles=linestyles,
         label_every_n=1, label_groupby=False, markers=markers,
         markersize=5, rotate_labels=False, filter_fn=filter_fn,
-        filter_columns=filter_columns, return_full_dataframes=True)
+        filter_columns=filter_columns, return_full_dataframes=False)
     reward_zone_ax.set_yticks([0, .1, .2, .3, .4])
     sns.despine(ax=reward_zone_ax)
     reward_zone_ax.set_xlabel('Day in Condition')
@@ -327,7 +325,7 @@ def main():
         rotate_labels=False, line_kwargs=line_kwargs, linestyles=linestyles,
         filter_fn=filter_fn, filter_columns=filter_columns,
         flierprops={'markersize': 2, 'marker': 'o'}, box_width=0.4,
-        box_spacing=0.2, return_full_dataframes=True, whis='range')
+        box_spacing=0.2, return_full_dataframes=False, whis='range')
     sns.despine(ax=fraction_licks_by_session_A_ax, top=True, right=True)
     fraction_licks_by_session_A_ax.set_xticklabels(['first', 'last'])
     fraction_licks_by_session_A_ax.set_xlabel('')
@@ -351,7 +349,7 @@ def main():
         rotate_labels=False, line_kwargs=line_kwargs, linestyles=linestyles,
         filter_fn=filter_fn, filter_columns=filter_columns, notch=False,
         flierprops={'markersize': 2, 'marker': 'o'}, box_width=0.4,
-        box_spacing=0.2, return_full_dataframes=True, whis='range')
+        box_spacing=0.2, return_full_dataframes=False, whis='range')
     sns.despine(
         ax=fraction_licks_by_session_B_ax, top=True, right=True, left=True)
     fraction_licks_by_session_B_ax.tick_params(left=False, labelleft=False)
@@ -375,7 +373,7 @@ def main():
         label_every_n=1, label_groupby=False, markers=markers,
         rotate_labels=False, line_kwargs=line_kwargs, linestyles=linestyles,
         filter_fn=filter_fn, filter_columns=filter_columns,
-        return_full_dataframes=True,
+        return_full_dataframes=False,
         flierprops={'markersize': 2, 'marker': 'o'}, box_width=0.4,
         box_spacing=0.2, whis='range')
     sns.despine(

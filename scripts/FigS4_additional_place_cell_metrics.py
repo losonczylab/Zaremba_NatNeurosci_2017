@@ -46,8 +46,6 @@ def main():
     pc_filters = [expt_grp.pcs_filter(roi_filter=roi_filter) for
                   expt_grp, roi_filter in zip(expt_grps, roi_filters)]
 
-    data_to_save = {}
-
     fig = plt.figure(figsize=(8.5, 11))
 
     gs1 = plt.GridSpec(
@@ -77,14 +75,14 @@ def main():
         pc_fraction_bar_ax]
 
     sensitivity_range = (0, 1)
-    data_to_save['sensitivity'] = plotting.plot_metric(
+    plotting.plot_metric(
         sensitivity_cdf_ax, expt_grps, metric_fn=place.sensitivity,
         groupby=[['roi_id', 'expt']], plotby=None, plot_method='cdf',
         roi_filters=pc_filters, activity_kwargs=None,
         activity_label='Transient sensitivity', colors=colors,
         rotate_labels=False, linestyles=linestyles)
     sensitivity_cdf_ax.set_xlim(sensitivity_range)
-    data_to_save['sensitivity_by_mouse'] = plotting.plot_metric(
+    plotting.plot_metric(
         sensitivity_bar_ax, expt_grps, metric_fn=place.sensitivity,
         groupby=[['roi_id', 'expt'],
                  ['roi_id', 'uniqueLocationKey', 'mouseID'], ['mouseID']],
@@ -99,14 +97,14 @@ def main():
         size=10)
 
     specificity_range = (0, 1)
-    data_to_save['specificity'] = plotting.plot_metric(
+    plotting.plot_metric(
         specificity_cdf_ax, expt_grps, metric_fn=place.specificity,
         groupby=[['roi_id', 'expt']], plotby=None, plot_method='cdf',
         roi_filters=pc_filters, activity_kwargs=None,
         activity_label='Transient specificity', colors=colors,
         rotate_labels=False, linestyles=linestyles)
     specificity_cdf_ax.set_xlim(specificity_range)
-    data_to_save['specificity_by_mouse'] = plotting.plot_metric(
+    plotting.plot_metric(
         specificity_bar_ax, expt_grps, metric_fn=place.specificity,
         groupby=[['roi_id', 'expt'],
                  ['roi_id', 'uniqueLocationKey', 'mouseID'], ['mouseID']],
@@ -117,14 +115,14 @@ def main():
     specificity_bar_ax.set_yticks(specificity_range)
 
     width_range = (0, 100)
-    data_to_save['pf_width'] = plotting.plot_metric(
+    plotting.plot_metric(
         width_cdf_ax, expt_grps, metric_fn=place.place_field_width,
         groupby=None, plotby=None, plot_method='cdf',
         roi_filters=pc_filters, activity_kwargs=None,
         activity_label='Place field width (cm)', colors=colors,
         rotate_labels=False, linestyles=linestyles)
     width_cdf_ax.set_xlim(width_range)
-    data_to_save['pf_width_by_mouse'] = plotting.plot_metric(
+    plotting.plot_metric(
         width_bar_ax, expt_grps, metric_fn=place.place_field_width,
         groupby=[['roi_id', 'uniqueLocationKey', 'mouseID'], ['mouseID']],
         plotby=None, plot_method='grouped_bar',
@@ -134,14 +132,14 @@ def main():
     width_bar_ax.set_yticks(width_range)
 
     sparsity_range = (0, 1)
-    data_to_save['sparsity'] = plotting.plot_metric(
+    plotting.plot_metric(
         sparsity_cdf_ax, expt_grps, metric_fn=place.sparsity,
         groupby=[['roi_id', 'expt']], plotby=None, plot_method='cdf',
         roi_filters=pc_filters, activity_kwargs=None,
         activity_label='Single-cell sparsity', colors=colors,
         rotate_labels=False, linestyles=linestyles)
     sparsity_cdf_ax.set_xlim(sparsity_range)
-    data_to_save['sparsity_by_mouse'] = plotting.plot_metric(
+    plotting.plot_metric(
         sparsity_bar_ax, expt_grps, metric_fn=place.sparsity,
         groupby=[['roi_id', 'expt'],
                  ['roi_id', 'uniqueLocationKey', 'mouseID'], ['mouseID']],
@@ -152,7 +150,7 @@ def main():
     sparsity_bar_ax.set_yticks(sparsity_range)
 
     fraction_ses_pc_range = (0, 0.5)
-    data_to_save['fraction_ses_pc'] = plotting.plot_metric(
+    plotting.plot_metric(
         pc_fraction_ax, expt_grps, metric_fn=lab.ExperimentGroup.filtered_rois,
         groupby=(('mouseID', 'uniqueLocationKey', 'roi_id'),), plotby=None,
         colorby=None, plot_method='cdf', roi_filters=pc_filters,
@@ -168,7 +166,7 @@ def main():
     pc_fraction_ax.spines['left'].set_linewidth(1)
     pc_fraction_ax.spines['bottom'].set_linewidth(1)
 
-    data_to_save['fraction_ses_pc_by_mouse'] = plotting.plot_metric(
+    plotting.plot_metric(
         pc_fraction_bar_ax, expt_grps,
         metric_fn=lab.ExperimentGroup.filtered_rois,
         groupby=[['roi_id', 'uniqueLocationKey', 'mouseID'], ['mouseID']],
@@ -179,7 +177,7 @@ def main():
     pc_fraction_bar_ax.set_ylim(fraction_ses_pc_range)
     pc_fraction_bar_ax.set_yticks(fraction_ses_pc_range)
 
-    data_to_save['is_ever_pc'] = place.is_ever_place_cell(
+    place.is_ever_place_cell(
         expt_grps, roi_filters=roi_filters, ax=is_ever_pc_fraction_ax,
         colors=colors, filter_fn=lambda df: df['session_number'] < 15,
         filter_columns=['session_number'],
