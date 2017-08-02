@@ -52,7 +52,7 @@ will run all of the figure code (see [Docker](#docker)).
 ### Raw data
 
 All scripts require raw data to first be downloaded.
-Data is available at TBD.
+Data is available from the Dryad Digital Repository, [doi: 10.5061/dryad.rq560](http://dx.doi.org/10.5061/dryad.rq560)
 The data should be extracted and placed in a directory with the following structure:
 
     .
