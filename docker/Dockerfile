@@ -1,7 +1,7 @@
 # To build (from root directory of git repo):
 #   docker build -t zaremba_nn_2017 -f docker/Dockerfile .
 
-FROM jzaremba/zaremba_nn_2017_data
+FROM losonczylab/zaremba_nn_2017_data
 
 LABEL maintainer="jzaremba@gmail.com"
 
