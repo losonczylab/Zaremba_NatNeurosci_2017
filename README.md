@@ -112,4 +112,4 @@ docker run -it --rm -v /PATH/TO/SAVE/FIGURES:/analysis losonczylab/zaremba_nn_20
 
 Version | Notes
 :---: | ---
-1.0.0 | Publication version.
+v1.0 | Publication version.
