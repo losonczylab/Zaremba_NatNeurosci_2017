@@ -41,10 +41,9 @@ markers = [WT_marker, Df_marker]
 save_dir = df.fig_save_dir
 filename = 'FigS11_latent_tuning.{}'.format(FIG_FORMAT)
 
-WT_params_path = os.path.join(
-    df.data_path, 'enrichment_model', 'WT_model_params_C.pkl')
-Df_params_path = os.path.join(
-    df.data_path, 'enrichment_model', 'Df_model_params_C.pkl')
+data_root_path = os.path.join(df.data_path, 'enrichment_model')
+WT_params_path = os.path.join(data_root_path, 'WT_model_params_C.pkl')
+Df_params_path = os.path.join(data_root_path, 'Df_model_params_C.pkl')
 
 
 def main():
@@ -52,8 +51,8 @@ def main():
     WT_params = pkl.load(open(WT_params_path))
     Df_params = pkl.load(open(Df_params_path))
 
-    WT_raw_data, WT_data = emd.load_data('wt')
-    Df_raw_data, Df_data = emd.load_data('df')
+    WT_raw_data, WT_data = emd.load_data('wt', root=data_root_path)
+    Df_raw_data, Df_data = emd.load_data('df', root=data_root_path)
 
     fig, axs = plt.subplots(
         3, 3, figsize=(11, 8.5), gridspec_kw={'wspace': 0.4})
