@@ -38,7 +38,7 @@ Repository layout:
 * [future](https://pypi.python.org/pypi/future) >= 0.14
 * [seaborn](https://seaborn.pydata.org/)
 * [matplotlib](https://matplotlib.org/)
-* [pandas](http://pandas.pydata.org/)
+* [pandas](http://pandas.pydata.org/) <= 0.19.2
 * [openCV](http://opencv.org/)
 * [SIMA](https://pypi.python.org/pypi/sima)
 * [pycircstat](https://pypi.python.org/pypi/pycircstat)

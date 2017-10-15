@@ -10,6 +10,11 @@ RUN apt-get update -qq && apt-get install -qqy \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
+# There is a bug that arises with pandas >0.19.2,
+# (tested 0.20.0, 0.20.3, 0.21.0rc1)
+# To avoid this, I will pin pandas to 0.19.2 here.
+RUN pip install -U --no-deps pandas==0.19.2
+
 RUN mkdir /code
 COPY . /code
 RUN cd /code/losonczy_analysis_bundle && \
